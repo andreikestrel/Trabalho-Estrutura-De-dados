@@ -71,12 +71,12 @@ class ListaEncadeada:
 
     def menu(self):
         while True:
-            print("************ MENU ******************")
-            print("*  [1]  Adicionar paciente à fila  *")
-            print("*  [2]  Mostrar pacientes na fila  *")
-            print("*  [3]  Chamar paciente            *")
-            print("*  [4]  Sair                       *")
-            print("************************************")
+            print("************  MENU  ******************")
+            print("*  [1]  Adicionar paciente à fila    *")
+            print("*  [2]  Mostrar pacientes na fila    *")
+            print("*  [3]  Chamar paciente              *")
+            print("*  [4]  Sair                         *")
+            print("**************************************")
             print("\n")
             opcao = input("Digite a opção desejada:")
             if opcao == "1":
