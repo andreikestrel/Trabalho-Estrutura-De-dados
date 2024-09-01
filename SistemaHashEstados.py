@@ -1,58 +1,65 @@
 class Nodo:
-    def __init__(self, sigla, nomeEstado):
+    def __init__(self, sigla, nome_estado):
         self.sigla = sigla
-        self.nomeEstado = nomeEstado
+        self.nome_estado = nome_estado
         self.proximo = None
 
 class TabelaHash:
-    def __init__(self):
-        self.tabela = [None] * 10
+    def __init__(self, tamanho):
+        self.tamanho = tamanho
+        self.tabela = [None] * tamanho
 
     def funcao_hash(self, sigla):
-        if sigla == 'DF':
+        if sigla == "DF":
             return 7
         else:
-            char1_ascii = ord(sigla[0])
-            char2_ascii = ord(sigla[1])
-            return (char1_ascii + char2_ascii) % 10
+            return (ord(sigla[0]) + ord(sigla[1])) % self.tamanho
 
-    def inserir(self, sigla, nomeEstado):
-        posicao = self.funcao_hash(sigla)
-        novo_nodo = Nodo(sigla, nomeEstado)
-        if self.tabela[posicao] is None:
-            self.tabela[posicao] = novo_nodo
-        else:
-            novo_nodo.proximo = self.tabela[posicao]
-            self.tabela[posicao] = novo_nodo
+    def inserir(self, sigla, nome_estado):
+        indice = self.funcao_hash(sigla)
+        novo_nodo = Nodo(sigla, nome_estado)
+        novo_nodo.proximo = self.tabela[indice]
+        self.tabela[indice] = novo_nodo
 
     def imprimir(self):
-        for i in range(10):
+        for i in range(self.tamanho):
             print(f"Posição {i}: ", end="")
-            nodo = self.tabela[i]
-            while nodo is not None:
-                print(f"{nodo.sigla} -> ", end="")
-                nodo = nodo.proximo
-            print("None")
+            nodo_atual = self.tabela[i]
+            while nodo_atual:
+                print(nodo_atual.sigla, end=" ")
+                nodo_atual = nodo_atual.proximo
+            print()
 
-# Criação da tabela hash
-tabela_hash = TabelaHash()
+# Criar a tabela hash
+tabela_hash = TabelaHash(10)
 
-# Inserção dos 27 estados e Distrito Federal
+# Imprimir a tabela hash vazia
+print("Tabela Hash vazia:")
+tabela_hash.imprimir()
+
+# Inserir os 26 estados e o Distrito Federal
 estados = [
-    ('AC', 'Acre'), ('AL', 'Alagoas'), ('AP', 'Amapá'), ('AM', 'Amazonas'),
-    ('BA', 'Bahia'), ('CE', 'Ceará'), ('DF', 'Distrito Federal'), ('ES', 'Espírito Santo'),
-    ('GO', 'Goiás'), ('MA', 'Maranhão'), ('MT', 'Mato Grosso'), ('MS', 'Mato Grosso do Sul'),
-    ('MG', 'Minas Gerais'), ('PA', 'Pará'), ('PB', 'Paraíba'), ('PR', 'Paraná'),
-    ('PE', 'Pernambuco'), ('PI', 'Piauí'), ('RJ', 'Rio de Janeiro'), ('RN', 'Rio Grande do Norte'),
-    ('RS', 'Rio Grande do Sul'), ('RO', 'Rondônia'), ('RR', 'Roraima'), ('SC', 'Santa Catarina'),
-    ('SP', 'São Paulo'), ('SE', 'Sergipe'), ('TO', 'Tocantins')
+    ("AC", "Acre"),("AL", "Alagoas"),("AP", "Amapá"),("AM", "Amazonas"),
+    ("BA", "Bahia"), ("CE", "Ceará"), ("DF", "Distrito Federal"), ("ES", "Espírito Santo"),
+    ("GO", "Goiás"), ("MA", "Maranhão"), ("MT", "Mato Grosso"), ("MS", "Mato Grosso do Sul"),
+    ("MG", "Minas Gerais"), ("PA", "Pará"), ("PB", "Paraíba"), ("PR", "Paraná"),
+    ("PE", "Pernambuco"), ("PI", "Piauí"), ("RJ", "Rio de Janeiro"), ("RN", "Rio Grande do Norte"),
+    ("RS", "Rio Grande do Sul"), ("RO", "Rondônia"), ("RR", "Roraima"), ("SC", "Santa Catarina"),
+    ("SP", "São Paulo"), ("SE", "Sergipe"), ("TO", "Tocantins")
 ]
 
-for sigla, nome in estados:
-    tabela_hash.inserir(sigla, nome)
+for sigla, nome_estado in estados:
+    tabela_hash.inserir(sigla, nome_estado)
 
-# Inserção de um estado fictício
-tabela_hash.inserir('BK', 'Bruno Kostiuk')
+# Imprimindo a tabela hash após inserir os estados
+print("\nTabela Hash após inserir os estados:")
+tabela_hash.imprimir()
 
-# Impressão da tabela hash
+# Inseririndo o estado fictício
+nome_completo = "Andrei Barbosa" #Meu nome é Andrei Morais Barbosa, porem encurtei para ficar AB.
+sigla_ficticia = nome_completo[0] + nome_completo.split()[-1][0]
+tabela_hash.inserir(sigla_ficticia, nome_completo)
+
+# Imprimindo a tabela hash após inserir o estado fictício
+print("\nTabela Hash após inserir o estado fictício:")
 tabela_hash.imprimir()
